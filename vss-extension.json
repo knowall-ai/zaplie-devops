@@ -1,0 +1,78 @@
+{
+  "manifestVersion": 1,
+  "id": "zaplie-devops",
+  "version": "1.0.1",
+  "name": "Zaplie for DevOps",
+  "scopes": ["vso.work_write", "vso.graph"],
+  "description": "Bitcoin Lightning tipping (zaps) for Azure DevOps work items. Tip assignees with sats directly from the work item context menu.",
+  "publisher": "knowall-ai",
+  "icons": {
+    "default": "img/logo.png"
+  },
+  "targets": [
+    {
+      "id": "Microsoft.VisualStudio.Services.Cloud"
+    },
+    {
+      "id": "Microsoft.TeamFoundation.Server",
+      "version": "[15.0,)"
+    }
+  ],
+  "tags": [
+    "Work Items",
+    "Bitcoin",
+    "Lightning",
+    "Zap",
+    "Tips",
+    "Rewards",
+    "Recognition"
+  ],
+  "content": {
+    "details": {
+      "path": "details.md"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "uri": "https://github.com/knowall-ai/zaplie-devops"
+  },
+  "branding": {
+    "color": "#f7931a",
+    "theme": "dark"
+  },
+  "files": [
+    {
+      "path": "dist",
+      "addressable": true
+    },
+    {
+      "path": "img",
+      "addressable": true
+    }
+  ],
+  "categories": ["Azure Boards"],
+  "contributions": [
+    {
+      "id": "zap-work-item-action",
+      "type": "ms.vss-web.action",
+      "targets": ["ms.vss-work-web.work-item-context-menu"],
+      "properties": {
+        "text": "Zap",
+        "title": "Send a Bitcoin Lightning tip",
+        "icon": "img/zap-icon.png",
+        "uri": "dist/zapAction.html",
+        "group": "actions"
+      }
+    },
+    {
+      "id": "zaplie-settings-hub",
+      "type": "ms.vss-web.hub",
+      "targets": ["ms.vss-web.collection-admin-hub-group"],
+      "properties": {
+        "name": "Zaplie Settings",
+        "uri": "dist/settings.html",
+        "icon": "img/zap-icon.png"
+      }
+    }
+  ]
+}

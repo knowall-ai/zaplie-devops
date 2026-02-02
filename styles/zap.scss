@@ -1,0 +1,191 @@
+// Zaplie for DevOps - Styles
+// Bitcoin orange: #f7931a
+
+$bitcoin-orange: #f7931a;
+$bitcoin-orange-hover: #e8850f;
+$bitcoin-orange-light: rgba(247, 147, 26, 0.1);
+$bitcoin-orange-medium: rgba(247, 147, 26, 0.2);
+
+// Base body styles
+.zap-body,
+.settings-body {
+  margin: 0;
+  padding: 0;
+  font-family:
+    "Segoe UI",
+    -apple-system,
+    BlinkMacSystemFont,
+    Roboto,
+    "Helvetica Neue",
+    sans-serif;
+  background-color: #ffffff;
+  min-height: 100vh;
+}
+
+// Container styles
+.zap-container,
+.settings-container {
+  width: 100%;
+  min-height: 100vh;
+}
+
+// Loading state
+.zap-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  gap: 12px;
+  color: #666;
+
+  .loading-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid #e0e0e0;
+    border-top-color: $bitcoin-orange;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+}
+
+// Error state
+.zap-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  padding: 24px;
+  text-align: center;
+  color: #dc3545;
+}
+
+// Spin animation
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Amount button styles for selected state
+.zap-amount-btn {
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background-color: #f5f5f5;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.15s ease;
+
+  &:hover {
+    border-color: $bitcoin-orange;
+    background-color: $bitcoin-orange-light;
+  }
+
+  &.selected {
+    border-color: $bitcoin-orange;
+    background-color: $bitcoin-orange-medium;
+    color: $bitcoin-orange;
+  }
+}
+
+// Confirm button styles
+.zap-confirm-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  background-color: $bitcoin-orange;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background-color: $bitcoin-orange-hover;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// Secondary button
+.btn-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background-color: white;
+  color: #333;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease;
+
+  &:hover {
+    border-color: #ccc;
+    background-color: #f5f5f5;
+  }
+}
+
+// Input styles
+.input {
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.15s ease;
+
+  &:focus {
+    outline: none;
+    border-color: $bitcoin-orange;
+  }
+
+  &::placeholder {
+    color: #999;
+  }
+}
+
+// QR code container
+.qr-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.qr-wrapper {
+  padding: 12px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+// Settings page specific styles
+.settings-body {
+  .settings-container {
+    padding: 0;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 480px) {
+  .zap-body,
+  .settings-body {
+    .zap-container,
+    .settings-container {
+      padding: 12px;
+    }
+  }
+}
