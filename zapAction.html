@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <script inline src="dist/VSS.SDK.min.js"></script>
+    <link inline href="dist/zap.css" rel="stylesheet" />
+</head>
+<body class="zap-body">
+    <div class="zap-container"></div>
+    <script type="text/javascript">
+        VSS.init({
+            explicitNotifyLoaded: true,
+            usePlatformScripts: true,
+            configureModuleLoader: true,
+            applyTheme: true
+        });
+
+        VSS.require([
+            "react",
+            "react-dom",
+            "TFS/WorkItemTracking/Contracts",
+            "TFS/WorkItemTracking/RestClient",
+            "VSS/Authentication/Services",
+            "VSS/SDK/Services/Navigation",
+            "dist/zapAction"
+        ], function () {
+            // notifyLoadSucceeded is called by zapAction.tsx
+        });
+    </script>
+</body>
+</html>

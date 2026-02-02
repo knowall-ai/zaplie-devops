@@ -1,0 +1,48 @@
+{
+  "name": "zaplie-devops",
+  "private": true,
+  "version": "1.0.1",
+  "description": "Azure DevOps extension for Bitcoin Lightning tipping (zaps) on work items",
+  "scripts": {
+    "dev": "webpack serve --mode development --port 3000 --hot",
+    "package-dev": "node ./node_modules/gulp/bin/gulp.js",
+    "package-release": "node ./node_modules/gulp/bin/gulp.js --release",
+    "format": "prettier --write \"scripts/**/*.{ts,tsx}\" \"styles/**/*.scss\"",
+    "format:check": "prettier --check \"scripts/**/*.{ts,tsx}\" \"styles/**/*.scss\"",
+    "lint": "eslint scripts --ext .ts,.tsx",
+    "lint:fix": "eslint scripts --ext .ts,.tsx --fix",
+    "typecheck": "tsc --noEmit",
+    "ci": "bun run lint && bun run format:check"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "del": "^3.0.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.34.0",
+    "gulp": "^4.0.0",
+    "gulp-inline-source": "^4.0.0",
+    "gulp-sass": "^5.1.0",
+    "prettier": "^3.2.5",
+    "sass": "^1.71.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.9.3",
+    "vss-web-extension-sdk": "^5.141.0",
+    "webpack": "^5.98.0",
+    "webpack-bundle-analyzer": "^4.10.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.2.3",
+    "yargs": "^17.7.2"
+  },
+  "dependencies": {
+    "@fluentui/react-components": "^9.72.11",
+    "@fluentui/react-icons": "^2.0.317",
+    "promise-polyfill": "^8.3.0",
+    "qrcode.react": "^4.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}

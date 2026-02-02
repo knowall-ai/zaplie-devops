@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <script inline src="dist/VSS.SDK.min.js"></script>
+    <link inline href="dist/zap.css" rel="stylesheet" />
+</head>
+<body class="settings-body">
+    <div class="settings-container"></div>
+    <script type="text/javascript">
+        VSS.init({
+            explicitNotifyLoaded: true,
+            usePlatformScripts: true,
+            configureModuleLoader: true,
+            applyTheme: true
+        });
+
+        VSS.require([
+            "react",
+            "react-dom",
+            "VSS/Authentication/Services",
+            "dist/settings"
+        ], function () {
+            // notifyLoadSucceeded is called by settings.tsx
+        });
+    </script>
+</body>
+</html>

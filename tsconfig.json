@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "module": "amd",
+    "moduleResolution": "node",
+    "target": "es5",
+    "strict": true,
+    "noImplicitAny": true,
+    "jsx": "react",
+    "sourceMap": true,
+    "baseUrl": ".",
+    "rootDir": "./scripts",
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "lib": ["es2015.promise", "dom", "es5", "es2015"]
+  },
+  "include": ["scripts/**/*"],
+  "exclude": ["node_modules"]
+}

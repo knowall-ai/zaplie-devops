@@ -1,0 +1,167 @@
+= Zaplie for DevOps - Solution Design
+:toc: auto
+:toc-title: Table of Contents
+:toclevels: 3
+
+== Overview
+
+Zaplie for DevOps is an Azure DevOps extension that enables Bitcoin Lightning tipping (zaps) for work item assignees. Team members can recognize each other's contributions by sending satoshis directly from the work item context menu.
+
+== Architecture
+
+=== High-Level Flow
+
+[source]
+----
+User clicks "Zap" → Extension fetches assignee → Lookup Lightning address →
+Generate QR code → User pays invoice → Post comment to work item
+----
+
+=== Components
+
+==== Frontend (React + Fluent UI v9)
+
+* *ZapDialog* - Main dialog for sending zaps
+* *AmountSelector* - Preset amount buttons (100, 500, 1000, 5000 sats)
+* *QRCodeDisplay* - QR code generation for Lightning invoices
+* *SettingsForm* - User settings for Lightning address configuration
+
+==== Services
+
+* *graphService.ts* - Microsoft Graph API for Lightning address storage
+* *lightningService.ts* - LNURL-pay invoice fetching
+* *workItemService.ts* - Azure DevOps REST API for work item operations
+
+==== Extension Contributions
+
+* Work item context menu action ("Zap")
+* Organization settings hub ("Zaplie Settings")
+
+== Data Storage
+
+=== Lightning Address Storage
+
+Lightning addresses are stored in Microsoft Graph user profile extensions:
+
+* *Extension Name*: `zaplie.knowall.ai`
+* *API Endpoint*: `GET/PATCH https://graph.microsoft.com/v1.0/users/{userId}/extensions/zaplie.knowall.ai`
+* *Data Structure*: `{ lightningAddress: "user@domain.com" }`
+
+This extension name is shared across all Zaplie applications (ZapDesk, Zaplie for DevOps) enabling a unified Lightning address across the Microsoft ecosystem.
+
+== LNURL-pay Flow
+
+. Parse Lightning address (name@domain)
+. Fetch LNURL-pay metadata: `GET https://{domain}/.well-known/lnurlp/{name}`
+. Validate callback URL (must be HTTPS, same domain)
+. Request invoice: `GET {callback}?amount={msats}&comment=...`
+. Display QR code with BOLT11 invoice
+. User scans with Lightning wallet
+. User confirms zap sent
+. Extension posts comment to work item
+
+== Security Considerations
+
+=== Callback URL Validation
+
+* Must use HTTPS protocol
+* Must match or be subdomain of Lightning address domain
+* Prevents redirect attacks
+
+=== BOLT11 Invoice Validation
+
+* Must start with "ln"
+* Must be alphanumeric
+* Minimum 10 characters
+
+=== Authentication
+
+* Uses Azure DevOps VSS SDK for authentication
+* Graph API access via delegated permissions
+* Work item comments posted via user's credentials
+
+== Technology Stack
+
+[cols="1,1,2"]
+|===
+|Technology |Version |Purpose
+
+|React |18.3.1 |UI framework
+|TypeScript |5.9.3 |Type safety
+|Fluent UI |v9 |Microsoft design system
+|Webpack |5 |Bundling
+|qrcode.react |4 |QR code generation
+|Bun |latest |Package management
+|===
+
+== Extension Manifest
+
+The extension defines two contributions:
+
+[source,json]
+----
+{
+  "contributions": [
+    {
+      "id": "zap-work-item-action",
+      "type": "ms.vss-web.action",
+      "targets": ["ms.vss-work-web.work-item-context-menu"]
+    },
+    {
+      "id": "zaplie-settings-hub",
+      "type": "ms.vss-web.hub",
+      "targets": ["ms.vss-web.collection-admin-hub-group"]
+    }
+  ]
+}
+----
+
+== Project Structure
+
+[source]
+----
+zaplie-devops/
+├── .github/workflows/
+│   ├── ci.yml                    # Lint, format, build verification
+│   └── publish.yml               # Tag-based marketplace publishing
+├── docs/
+│   ├── DEPLOY.adoc               # Deployment guide
+│   ├── SOLUTION_DESIGN.adoc      # This document
+│   └── TROUBLESHOOTING.adoc      # Troubleshooting guide
+├── img/
+│   ├── logo.png                  # Extension icon (128x128)
+│   └── zap-icon.png              # Lightning bolt for toolbar
+├── scripts/
+│   ├── components/
+│   │   ├── ZapDialog.tsx         # Main zap dialog
+│   │   ├── AmountSelector.tsx    # Amount preset buttons
+│   │   ├── QRCodeDisplay.tsx     # QR code with copy/wallet buttons
+│   │   └── SettingsForm.tsx      # Lightning address configuration
+│   ├── services/
+│   │   ├── graphService.ts       # Microsoft Graph API (Lightning addresses)
+│   │   ├── lightningService.ts   # LNURL-pay invoice fetching
+│   │   └── workItemService.ts    # Azure DevOps REST API
+│   ├── types/
+│   │   └── index.ts              # TypeScript type definitions
+│   ├── utils/
+│   │   └── lnurl.ts              # Lightning URI utilities
+│   ├── zapAction.tsx             # Work item action entry point
+│   └── settings.tsx              # Settings hub entry point
+├── styles/
+│   └── zap.scss                  # Bitcoin orange (#f7931a) theme
+├── zapAction.html                # HTML wrapper for zap action
+├── settings.html                 # HTML wrapper for settings hub
+├── vss-extension.json            # Extension manifest
+├── webpack.config.js             # Webpack bundling config
+├── gulpfile.js                   # Build orchestration
+├── tsconfig.json                 # TypeScript configuration
+├── package.json                  # Dependencies and scripts
+├── CLAUDE.md                     # AI assistant context
+├── details.md                    # Marketplace description
+└── README.md                     # Project documentation
+----
+
+== Related Documentation
+
+* link:DEPLOY.adoc[Deployment Guide]
+* link:TROUBLESHOOTING.adoc[Troubleshooting Guide]

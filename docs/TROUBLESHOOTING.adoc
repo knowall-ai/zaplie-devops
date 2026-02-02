@@ -1,0 +1,193 @@
+= Zaplie for DevOps - Troubleshooting Guide
+:toc: auto
+:toc-title: Table of Contents
+:toclevels: 3
+
+== Common Issues
+
+=== "Zap" button doesn't appear
+
+*Symptoms*: The "Zap" option is missing from work item context menu.
+
+*Possible causes*:
+
+. Extension not installed
+. Extension not shared with your organization
+. Browser cache
+
+*Solutions*:
+
+. Verify extension is installed: Organization settings → Extensions
+. Clear browser cache and refresh
+. Check extension scope requirements
+
+=== "No assignee" error
+
+*Symptoms*: Dialog shows "Work item has no assignee".
+
+*Cause*: The selected work item doesn't have an assignee.
+
+*Solution*: Assign the work item to a user before zapping.
+
+=== Lightning address not found
+
+*Symptoms*: Dialog shows "This user hasn't configured a Lightning address yet."
+
+*Cause*: The assignee hasn't set up their Lightning address.
+
+*Solution*: Ask the assignee to configure their address:
+
+. Organization settings → Zaplie Settings
+. Enter Lightning address
+. Click Save
+
+=== Invoice fetch failed
+
+*Symptoms*: Error message "Failed to fetch invoice" or "LNURL endpoint returned XXX".
+
+*Possible causes*:
+
+. Invalid Lightning address
+. LNURL server is down
+. CORS restrictions
+
+*Solutions*:
+
+. Verify the Lightning address is correct (format: name@domain.com)
+. Test the address at https://lightningaddress.com
+. Check if the wallet provider's servers are operational
+
+=== QR code won't scan
+
+*Symptoms*: Lightning wallet can't read the QR code.
+
+*Solutions*:
+
+. Ensure adequate screen brightness
+. Try increasing device camera resolution
+. Copy invoice manually using the copy button
+. Use "Open in Wallet" button if on mobile
+
+=== Comment not posted
+
+*Symptoms*: Zap confirmed but no comment appears on work item.
+
+*Possible causes*:
+
+. Insufficient permissions
+. API rate limiting
+
+*Solutions*:
+
+. Verify you have permission to comment on work items
+. Check browser console for API errors
+. Wait a moment and refresh the work item
+
+== Authentication Issues
+
+=== Graph API errors
+
+*Symptoms*: "Failed to get Lightning Address" or similar Graph errors.
+
+*Cause*: Token or permission issues.
+
+*Solutions*:
+
+. Sign out and sign back in to Azure DevOps
+. Clear browser cookies for dev.azure.com
+. Verify extension has required scopes (`vso.graph`)
+
+=== Token refresh issues
+
+*Symptoms*: Actions fail after extended session.
+
+*Solution*: Refresh the page to get new tokens.
+
+== Build Issues
+
+=== VSIX creation fails
+
+*Symptoms*: `bun run package-dev` fails.
+
+*Solutions*:
+
+[source,bash]
+----
+# Ensure tfx-cli is installed
+npm install -g tfx-cli
+
+# Clean and rebuild
+rm -rf dist *.vsix
+bun install
+bun run package-dev
+----
+
+=== TypeScript errors
+
+*Solutions*:
+
+[source,bash]
+----
+# Check TypeScript
+bun run typecheck
+
+# Common fix: reinstall dependencies
+rm -rf node_modules
+bun install
+----
+
+=== Missing VSS SDK types
+
+*Solution*: Ensure `vss-web-extension-sdk` is installed:
+
+[source,bash]
+----
+bun add -D vss-web-extension-sdk
+----
+
+== Debugging
+
+=== Browser Console
+
+Open browser developer tools (F12) and check:
+
+. Console for JavaScript errors
+. Network tab for failed API calls
+. Look for `[ZapDialog]` or `[Zaplie]` prefixed logs
+
+=== Enable Verbose Logging
+
+Add to browser console:
+
+[source,javascript]
+----
+localStorage.setItem('zaplie-debug', 'true');
+----
+
+Then refresh the page.
+
+=== Test Lightning Address Manually
+
+[source,bash]
+----
+# Test LNURL-pay endpoint
+curl https://domain.com/.well-known/lnurlp/username
+----
+
+== Getting Help
+
+=== Report Issues
+
+File issues at: https://github.com/knowall-ai/zaplie-devops/issues
+
+Include:
+
+* Browser and version
+* Azure DevOps organization type (cloud/server)
+* Error messages from console
+* Steps to reproduce
+
+== Related Documentation
+
+* link:SOLUTION_DESIGN.adoc[Solution Design]
+* link:DEPLOY.adoc[Deployment Guide]
