@@ -1,7 +1,7 @@
 {
   "manifestVersion": 1,
   "id": "zaplie-devops",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "name": "Zaplie for DevOps",
   "scopes": ["vso.work_write", "vso.graph"],
   "description": "Bitcoin Lightning tipping (zaps) for Azure DevOps work items. Tip assignees with sats from the work item toolbar or context menu.",
