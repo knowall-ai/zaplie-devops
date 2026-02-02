@@ -110,9 +110,14 @@ export function QRCodeDisplay({
 }: QRCodeDisplayProps) {
   const styles = useStyles();
 
-  const qrValue = invoice || "";
-  const walletUri = invoice || `lightning:${lightningAddress}`;
-  const invoiceStr = invoice?.startsWith("lightning:") ? invoice.slice(10) : invoice;
+  // Normalize invoice URI to always include lightning: prefix for proper deep linking
+  const rawInvoice = invoice ?? "";
+  const hasInvoicePrefix = rawInvoice.startsWith("lightning:");
+  const invoiceUri = rawInvoice ? (hasInvoicePrefix ? rawInvoice : `lightning:${rawInvoice}`) : "";
+
+  const qrValue = invoiceUri || "";
+  const walletUri = invoiceUri || `lightning:${lightningAddress}`;
+  const invoiceStr = hasInvoicePrefix ? rawInvoice.slice("lightning:".length) : rawInvoice || null;
 
   return (
     <div className={styles.container}>
@@ -146,7 +151,8 @@ export function QRCodeDisplay({
           appearance="subtle"
           icon={copiedAddress ? <Checkmark24Regular /> : <Copy24Regular />}
           onClick={onCopyAddress}
-          title="Copy address"
+          title="Copy Lightning address"
+          aria-label="Copy Lightning address"
         />
       </div>
 
@@ -162,6 +168,7 @@ export function QRCodeDisplay({
             icon={copiedInvoice ? <Checkmark24Regular /> : <Copy24Regular />}
             onClick={onCopyInvoice}
             title="Copy invoice"
+            aria-label="Copy invoice"
           />
         </div>
       )}

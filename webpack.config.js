@@ -1,6 +1,19 @@
 const path = require("path");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
+const plugins = [];
+
+// Only enable bundle analyzer when ANALYZE env var is set
+if (process.env.ANALYZE) {
+  plugins.push(
+    new BundleAnalyzerPlugin({
+      openAnalyzer: false,
+      reportFilename: "bundle-analysis.html",
+      analyzerMode: "static",
+    })
+  );
+}
+
 module.exports = {
   entry: {
     zapAction: "./scripts/zapAction.tsx",
@@ -23,13 +36,7 @@ module.exports = {
     extensions: [".ts", ".tsx", ".js"],
   },
   devtool: "source-map",
-  plugins: [
-    new BundleAnalyzerPlugin({
-      openAnalyzer: false,
-      reportFilename: "bundle-analysis.html",
-      analyzerMode: "static",
-    }),
-  ],
+  plugins,
   module: {
     rules: [
       {

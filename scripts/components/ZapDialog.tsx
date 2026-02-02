@@ -303,6 +303,8 @@ export function ZapDialog({
               appearance="subtle"
               icon={<Dismiss24Regular />}
               onClick={onClose}
+              aria-label="Close"
+              title="Close"
             />
           </div>
         </DialogTitle>

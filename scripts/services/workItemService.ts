@@ -126,6 +126,18 @@ export async function addWorkItemComment(workItemId: number, comment: string): P
 }
 
 /**
+ * Escape HTML special characters to prevent XSS
+ */
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+/**
  * Format a zap comment for posting to a work item
  * @param senderName - Name of the person sending the zap
  * @param amount - Amount in satoshis
@@ -138,9 +150,14 @@ export function formatZapComment(
   recipientName: string
 ): string {
   const formattedAmount = amount.toLocaleString();
+  // Escape user-controlled strings to prevent XSS
+  const safeSenderName = escapeHtml(senderName);
+  const safeRecipientName = escapeHtml(recipientName);
+  const safeAmount = escapeHtml(formattedAmount);
+
   return `<div style="display: flex; align-items: center; gap: 8px;">
     <span style="color: #f7931a; font-size: 20px;">⚡</span>
-    <span><strong>${senderName}</strong> zapped <strong>${recipientName}</strong> with <strong>${formattedAmount} sats</strong></span>
+    <span><strong>${safeSenderName}</strong> zapped <strong>${safeRecipientName}</strong> with <strong>${safeAmount} sats</strong></span>
   </div>`;
 }
 

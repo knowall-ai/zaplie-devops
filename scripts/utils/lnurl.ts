@@ -14,13 +14,19 @@ export function lightningUri(lightningAddress: string): string {
 /**
  * Validate a Lightning address format
  * @param address - The Lightning address to validate
- * @returns true if valid format (name@domain)
+ * @returns true if valid format (name@domain with exactly one @)
  */
 export function isValidLightningAddress(address: string): boolean {
-  if (!address || !address.includes("@")) {
+  if (!address) {
     return false;
   }
-  const [name, domain] = address.split("@");
+  const trimmed = address.trim();
+  const parts = trimmed.split("@");
+  // Must have exactly one @ (resulting in exactly 2 parts)
+  if (parts.length !== 2) {
+    return false;
+  }
+  const [name, domain] = parts;
   return Boolean(name && domain && domain.includes("."));
 }
 
@@ -33,6 +39,7 @@ export function parseLightningAddress(address: string): { name: string; domain: 
   if (!isValidLightningAddress(address)) {
     return null;
   }
-  const [name, domain] = address.split("@");
+  const trimmed = address.trim();
+  const [name, domain] = trimmed.split("@");
   return { name, domain };
 }

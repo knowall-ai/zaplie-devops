@@ -1,7 +1,7 @@
 {
   "name": "zaplie-devops",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Azure DevOps extension for Bitcoin Lightning tipping (zaps) on work items",
   "scripts": {
     "dev": "webpack serve --mode development --port 3000 --hot",
@@ -26,11 +26,9 @@
     "gulp": "^4.0.0",
     "gulp-inline-source": "^4.0.0",
     "gulp-sass": "^5.1.0",
-    "gulp-tslint": "^8.1.1",
     "prettier": "^3.2.5",
     "sass": "^1.71.0",
     "ts-loader": "^9.5.1",
-    "tslint": "^5.20.1",
     "typescript": "^5.9.3",
     "vss-web-extension-sdk": "^5.141.0",
     "webpack": "^5.98.0",

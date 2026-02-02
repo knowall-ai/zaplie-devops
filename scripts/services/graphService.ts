@@ -3,6 +3,12 @@
  * Handles user profile extensions for storing Lightning Addresses
  *
  * Uses the zaplie.knowall.ai extension name for unified storage across Zaplie apps
+ *
+ * NOTE: Azure DevOps extension tokens obtained via VSS.getAccessToken() are scoped
+ * for Azure DevOps REST APIs only. For Microsoft Graph API access, the organization
+ * must configure an AAD app registration with appropriate Graph permissions.
+ * The extension will attempt to use the VSS token, which may work in some Azure AD
+ * configurations but may require additional OAuth setup for full Graph access.
  */
 
 import type { GraphExtension } from "../types";
@@ -11,7 +17,13 @@ const GRAPH_BASE_URL = "https://graph.microsoft.com/v1.0";
 const EXTENSION_NAME = "zaplie.knowall.ai";
 
 /**
- * Get a Graph API token from the VSS SDK
+ * Get an access token from the VSS SDK.
+ *
+ * NOTE: This returns an Azure DevOps token which may not be valid for Microsoft Graph
+ * depending on the organization's AAD configuration. For production use with Graph API,
+ * consider implementing a proper Microsoft Graph OAuth flow (e.g., MSAL + AAD app registration)
+ * to obtain a Graph-scoped token.
+ *
  * @returns Promise resolving to the access token
  */
 export async function getGraphToken(): Promise<string> {

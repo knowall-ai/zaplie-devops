@@ -106,11 +106,9 @@ function validateCallbackUrl(callbackUrl: string, expectedDomain: string): void 
       throw new Error("Callback URL must use HTTPS");
     }
 
-    // Allow same domain or subdomains
-    if (
-      !callbackUrlObj.hostname.endsWith(expectedDomain) &&
-      callbackUrlObj.hostname !== expectedDomain
-    ) {
+    // Allow same domain or subdomains (exact match or dot-boundary subdomain)
+    const hostname = callbackUrlObj.hostname;
+    if (hostname !== expectedDomain && !hostname.endsWith("." + expectedDomain)) {
       throw new Error("Callback URL domain does not match Lightning address domain");
     }
   } catch (urlErr) {

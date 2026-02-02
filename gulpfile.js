@@ -1,10 +1,8 @@
-const path = require("path");
 const gulp = require("gulp");
 const del = require("del");
 const yargs = require("yargs");
 const { execSync } = require("child_process");
 const sass = require("gulp-sass")(require("sass"));
-const tslint = require("gulp-tslint");
 const inlinesource = require("gulp-inline-source");
 
 const distFolder = "dist";
@@ -15,17 +13,6 @@ gulp.task("clean", () => {
 
 gulp.task("styles", () => {
   return gulp.src("styles/**/*.scss").pipe(sass()).pipe(gulp.dest(distFolder));
-});
-
-gulp.task("tslint", () => {
-  return gulp
-    .src(["scripts/**/*.ts", "scripts/**/*.tsx"])
-    .pipe(
-      tslint({
-        formatter: "verbose",
-      })
-    )
-    .pipe(tslint.report());
 });
 
 gulp.task("copy-sdk", () => {
@@ -47,7 +34,8 @@ gulp.task("webpack", async () => {
   });
 });
 
-gulp.task("build", gulp.parallel("webpack", "copy", "tslint"));
+// Removed tslint task - using ESLint instead (run via bun run lint)
+gulp.task("build", gulp.parallel("webpack", "copy"));
 
 gulp.task(
   "package",

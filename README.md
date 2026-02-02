@@ -95,6 +95,10 @@ zaplie-devops/
 
 Add `MARKETPLACE_PAT` secret to your GitHub repository for automated publishing.
 
+### Images
+
+**Note:** The `img/logo.png` (128x128) and `img/zap-icon.png` (16x16) are placeholder images. Replace them with actual Lightning bolt graphics before publishing to the marketplace.
+
 ## Documentation
 
 - [Solution Design](docs/SOLUTION_DESIGN.adoc)
