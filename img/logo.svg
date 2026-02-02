@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <!-- KnowAll Bright Green gradient -->
+    <linearGradient id="zapGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4ade80" />
+      <stop offset="50%" stop-color="#22c55e" />
+      <stop offset="100%" stop-color="#16a34a" />
+    </linearGradient>
+  </defs>
+
+  <!-- Grey background with rounded corners -->
+  <rect x="0" y="0" width="128" height="128" rx="16" ry="16" fill="#4b5563" />
+
+  <!-- Lightning bolt (zap) in KnowAll green -->
+  <path
+    d="M 72 16
+       L 40 68
+       L 56 68
+       L 48 112
+       L 88 56
+       L 68 56
+       L 80 16
+       Z"
+    fill="url(#zapGradient)"
+  />
+</svg>
