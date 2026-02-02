@@ -1,10 +1,10 @@
 {
   "manifestVersion": 1,
   "id": "zaplie-devops",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "name": "Zaplie for DevOps",
   "scopes": ["vso.work_write", "vso.graph"],
-  "description": "Bitcoin Lightning tipping (zaps) for Azure DevOps work items. Tip assignees with sats directly from the work item context menu.",
+  "description": "Bitcoin Lightning tipping (zaps) for Azure DevOps work items. Tip assignees with sats from the work item toolbar or context menu.",
   "publisher": "knowall-ai",
   "icons": {
     "default": "img/logo.png"
@@ -62,6 +62,19 @@
         "icon": "img/zap-icon.png",
         "uri": "dist/zapAction.html",
         "group": "actions"
+      }
+    },
+    {
+      "id": "zap-work-item-toolbar",
+      "type": "ms.vss-web.action",
+      "targets": ["ms.vss-work-web.work-item-toolbar-menu"],
+      "properties": {
+        "text": "Zap",
+        "title": "Send a Bitcoin Lightning tip",
+        "icon": "img/zap-icon.png",
+        "uri": "dist/zapAction.html",
+        "group": "actions",
+        "registeredObjectId": "zap-work-item-toolbar"
       }
     },
     {
