@@ -1,5 +1,7 @@
 # Zaplie for DevOps
 
+[![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/knowall-ai/zaplie-devops?label=CodeRabbit+Reviews&labelColor=171717&color=FF570A)](https://coderabbit.ai)
+
 Azure DevOps extension for Bitcoin Lightning tipping (zaps) on work items.
 
 ## Overview
